@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { Product } from "../../..";
 import CustomImage from "../image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ShoppingCart } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { useRouter } from "next/navigation";
@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 const CardItem = ({ data }: { data: Product[] }) => {
   const [sortedData, setSortedData] = useState<Product[]>(data);
   const [activeButton, setActiveButton] = useState<string>("All");
+  const [cartData, setCartData] = useState<Product[]>([]);
   const router = useRouter();
 
   const handleSortedCategry = (category: string) => {
@@ -26,12 +27,14 @@ const CardItem = ({ data }: { data: Product[] }) => {
     setActiveButton("All");
   };
 
-  const getCartData = () => {
-    const cartData = localStorage.getItem("cart");
-    if (cartData) {
-      return JSON.parse(cartData);
+  useEffect(() => {
+    const cartItem = localStorage.getItem("cart");
+    if (cartItem !== null) {
+      const cart = JSON.parse(cartItem);
+      setCartData(cart);
     }
-  };
+  }, []);
+
   return (
     <div>
       <div className="mb-4 flex justify-between">
@@ -57,7 +60,7 @@ const CardItem = ({ data }: { data: Product[] }) => {
           ))}
         </div>
         <div onClick={() => router.push("/cart")}>
-          <Badge> {getCartData()?.length} </Badge>
+          <Badge> {cartData.length} </Badge>
           <ShoppingCart size={28} />
         </div>
       </div>
