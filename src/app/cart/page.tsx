@@ -126,7 +126,7 @@ const Cart = () => {
           </div>
           <div className="">
             <label htmlFor="email" className="mb-2 block text-sm font-medium">
-              Email
+              E-mail
             </label>
             <div className="relative">
               <input
