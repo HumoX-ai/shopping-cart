@@ -37,7 +37,7 @@ const CardItem = ({ data }: { data: Product[] }) => {
 
   return (
     <div>
-      <div className="mb-4 flex justify-between">
+      <div className="mb-4 flex justify-between" >
         <div>
           <button
             onClick={() => resetSorttedCategry()}
