@@ -2,6 +2,8 @@
 import CustomImage from "@/components/image";
 import { Product } from "../../..";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 const Cart = () => {
   const [data, setData] = useState<Product[]>(
