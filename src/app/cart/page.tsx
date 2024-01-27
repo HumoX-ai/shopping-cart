@@ -1,14 +1,21 @@
 "use client";
 import CustomImage from "@/components/image";
 import { Product } from "../../..";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
 const Cart = () => {
-  const [data, setData] = useState<Product[]>(
-    JSON.parse(localStorage.getItem("cart") || "[]")
-  );
+  const [data, setData] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const storedData = JSON.parse(
+      typeof window !== "undefined"
+        ? localStorage.getItem("cart") || "[]"
+        : "[]"
+    );
+    setData(storedData);
+  }, []);
 
   const decreaseQuantity = (id: number) => {
     const newData = data.map((item: Product) => {
