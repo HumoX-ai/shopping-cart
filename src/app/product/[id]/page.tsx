@@ -4,11 +4,17 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Product as ProductType } from "../../../..";
+import { Badge } from "@/components/ui/badge";
+import { ShoppingCart } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const Product = ({ params }: { params: { id: string } }) => {
   const [data, setData] = useState<ProductType | null>(null);
   const [quantity, setQuantity] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [cartData, setCartData] = useState<ProductType[]>([]);
+
+  const router = useRouter();
 
   useEffect(() => {
     setIsLoading(true);
@@ -24,6 +30,14 @@ const Product = ({ params }: { params: { id: string } }) => {
     });
     setIsLoading(false);
   }, [params.id]);
+
+  useEffect(() => {
+    const cartItem = localStorage.getItem("cart");
+    if (cartItem !== null) {
+      const cart = JSON.parse(cartItem);
+      setCartData(cart);
+    }
+  }, []);
 
   if (!data) {
     return (
@@ -58,6 +72,13 @@ const Product = ({ params }: { params: { id: string } }) => {
 
   return (
     <div>
+      <div className="flex container mx-auto mt-2 justify-between max-w-xxl">
+        <div></div>
+        <div onClick={() => router.push("/cart")}>
+          <Badge> {cartData.length} </Badge>
+          <ShoppingCart size={28} />
+        </div>
+      </div>
       <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-8 px-4 mt-48 pb-10">
         <CustomImage product={data} />
 
